@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+
+<body >
+<header th:replace="front/fragments/header :: index"></header>
+	<div class="m-0 vh-100 row justify-content-center align-items-center">
+		<div class="col-auto bg-danger p-5 text-center">
+			<h1>Ha ocurrido un error inesperado</h1>
+			<p class="error-text" th:text="'Ha habido un error '+${codigo}+'.'"><br>
+			<div class="buttons mb-3">
+		    	<a sec:authorize="!isAuthenticated()" th:href="@{/}"><button class="btn btn-secondary" >Regresar al Home</button></a>
+		    	<a sec:authorize="hasRole('ROLE_USER')" th:href="@{/home}"><button class="btn btn-secondary" >Regresar al Home</button></a>
+		    	<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/panelAdministrativo}"><button class="btn btn-secondary" >Regresar al Home</button></a>
+		    </div>
+		</div>
+	</div>
+	
+    <footer th:replace="front/fragments/footer :: footer"></footer>
+</body>
+</html>

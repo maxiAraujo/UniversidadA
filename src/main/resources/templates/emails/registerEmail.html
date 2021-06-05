@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<meta http-equiv="U-UX-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Universidad Alkemy</title>
+</head>
+<body>
+	<h1>Hola, <span th:text="${name}"></span> !</h1>
+	<p>Gracias por querer ser parte de la Universidad Alkemy.<br> 
+	 Te dejamos el número de registro: <span th:text="${code}"></span>.<br>
+	 Es importante que guardes este número ya que lo necesitaras para registrarte.<br>
+	 Para terminar el registro ingreso a este <a th:href="${registerLink}">enlace</a>, para completar tu registro.</p>
+	 <p>Saludos!<br>
+	 Universidad Alkemy</p>
+</body>
+</html>

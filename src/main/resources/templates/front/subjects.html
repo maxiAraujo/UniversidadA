@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="front/fragments/header :: home"></header>
+	<main>
+		<div class="container contenedor">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${enrollmenterror != null}">
+			
+			<strong th:text="${enrollmenterror}"></strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success != null}">
+		  <strong th:text="${success}"></strong>
+		  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+			<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">Nombre</th>
+			      <th scope="col">Profesor</th>
+			      <th scope="col">Día</th>
+			      <th scope="col">Turno</th>
+			      <th scope="col">Cupos</th>
+			      <th></th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="subject : ${subjects}">
+			      <th scope="row" th:text="${subject.name}"></th>
+			      <td th:text="${subject.teacher.lastName}"></td>
+ 			      <td th:text="${subject.schedule.day}" id="day"></td>
+ 			      <td th:text="${subject.schedule.turn.toString()}"></td>
+ 			      <td th:text="${subject.maximumNumberOfStudents} - ${#lists.size(subject.students)}"></td>
+			      <td><a th:href="@{/subject/inscription/{idSubject} (idSubject = ${subject.id})}" class="btn btn-success">Inscribirme</a></td>
+			    </tr>
+			  </tbody>
+			</table>
+				<div class="row pt-5 pb-4">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}"><a class="page-link" th:href="@{|/subject/subjectslist?page=${prev}}">Anterior</a></li>
+					    <li class="page-item" th:classappend="${current == page} ? 'active' : ''" th:each="page : ${pages}"><a class="page-link" th:href="@{|/subject/subjects?page=${page}}" th:text="${page}"></a></li>
+					    <li class="page-item" th:classappend="${current >= last} ? 'disabled' : ''"><a class="page-link" th:href="@{|/subject/subjects?page=${next}}">Siguiente</a></li>
+					  </ul>
+					</nav>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</main>
+		<footer th:replace="front/fragments/footer :: footer"></footer>
+		<script>
+			let dia = document.getElementById("day").value;
+			console.log(dia);
+		</script>
+		<script type="text/javascript">
+			let subjectlink = document.getElementById("subjectslink");
+			let profilelink = document.getElementById("profile");
+			subjectlink.classList.add("active");
+			profilelink.classList.remove("active");
+		</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+body{
+	background:  #FFFFFF;
+	background: linear-gradient(to right,  #556C94, #FFFFFF)
+}
+.contenedor {
+	min-height: calc(107vh - 100px);
+}

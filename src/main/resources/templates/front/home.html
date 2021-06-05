@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+<body onload="typeOfHome()">
+	<header th:replace="front/fragments/header :: home"></header>
+	<main class="mb-auto">
+	<input hidden th:value="${typehome}" id="typeHome">
+		<div class="container contenedor mt-2">
+			<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class=" btn nav-link active" id="pills-home-tab"
+						data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
+						role="tab" aria-controls="pills-home" aria-selected="true">Mis
+						materias</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="btn nav-link" id="pills-profile-tab"
+						data-bs-toggle="pill" data-bs-target="#pills-profile"
+						type="button" role="tab" aria-controls="pills-profile"
+						aria-selected="false">Perfil</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="btn nav-link" id="pills-contact-tab"
+						data-bs-toggle="pill" data-bs-target="#pills-contact"
+						type="button" role="tab" aria-controls="pills-contact"
+						aria-selected="false">Contacto</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="pills-tabContent">
+			<!-- Mis materias -->
+				<div class="tab-pane fade show active" id="pills-home"
+					role="tabpanel" aria-labelledby="pills-home-tab">
+					<h1 class="display-4">Mis Materias</h1>
+					<div class="alert alert-warning mt-2" role="alert"
+						th:if="${#lists.isEmpty(subjects)}">
+						<p class="text-center">No te has inscripto a ninguna materia
+							aún.</p>
+					</div>
+					<div class="alert alert-success mt-2" role="alert"
+						th:if="${success != null}">
+						<p class="text-center" th:text="${success}"></p>
+					</div>
+					<div class="alert alert-warning mt-2" role="alert"
+						th:if="${error != null}">
+						<p class="text-center" th:text="${error}"></p>
+					</div>
+					
+					<div class="card-group"
+						th:if="${not #lists.isEmpty(subjects)}">
+						<div th:each="subject : ${subjects}">
+							<div class="card text-center m-2" style="width: 18rem;">
+								<div class="card-body">
+									<h5 class="card-title" th:text="${subject.name}"></h5>
+									<p class="card-text">
+										<b>Profesor:</b> <span th:text="${subject.teacher.lastName}"></span>
+									</p>
+									<p class="card-text">
+										<b>Día:</b> <span th:text="${subject.schedule.day}"></span>
+									</p>
+									<p class="card-text">
+										<b>Turno:</b> <span th:text="${subject.schedule.turn}"></span>
+									</p>
+									<a th:href="@{/student/unsubscribe/{idSubject} (idSubject = ${subject.id})}" class="btn btn-danger">Dar baja</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row pt-5 pb-4">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}"><a class="page-link" th:href="@{|/home?page=${prev}}">Anterior</a></li>
+					    <li class="page-item" th:classappend="${current == page} ? 'active' : ''" th:each="page : ${pages}"><a class="page-link" th:href="@{|/home?page=${page}}" th:text="${page}"></a></li>
+					    <li class="page-item" th:classappend="${current >= last} ? 'disabled' : ''"><a class="page-link" th:href="@{|/home?page=${next}}">Siguiente</a></li>
+					  </ul>
+					</nav>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+				</div>
+				<!-- Perfil -->
+				<div class="tab-pane fade" id="pills-profile" role="tabpanel"
+					aria-labelledby="pills-profile-tab">
+					<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${editOn == true}">
+					  <strong>Se ha editado el perfil exitosamente.</strong>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+						<form method="POST" th:action="@{/student/edit}" th:object="${user}">
+							<div class="form-group">
+								<label class="form-label">Dni:</label>
+								<input class="form-control" id="dni" type="text" th:field="*{dni}" readonly>
+							</div>
+							
+							<div class="form-group">
+								<label class="form-label">Nombre:</label>
+								<input class="form-control" type="text" id="name" th:field="*{name}">
+							</div>
+							<div class="form-group">
+								<label class="form-label">Apellido:</label>
+								<input class="form-control" type="text" id="lastName" th:field="*{lastName}">
+							</div>
+							<div class="form-group">
+								<label class="form-label">Email</label>
+								<input class="form-control" type="email" id="email" th:field="*{email}">
+							</div>
+							<div class="form-group text-center pt-2">
+								<button class="btn btn-primary" type="submit">Editar</button>
+							</div>
+							<input hidden id="password" th:field="*{password}">
+							<input hidden id="rol" th:field="*{rol}">
+							<input hidden id="file" th:field="*{file}">
+							<input hidden id="active" th:field="*{active}">
+							<input hidden id="created" type="time" th:field="*{created}">
+						</form>
+				</div>
+				<!-- contacto -->
+				<div class="tab-pane fade" id="pills-contact" role="tabpanel"
+					aria-labelledby="pills-contact-tab">
+					<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${supportActive == true}">
+					  <strong>El mensaje se ha enviado exitosamente.</strong>
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+					
+						<h2>Enviar Mensaje: </h2>
+						<h4>¿Tienes alguna duda? No dudes en enviarnos un mensaje </h4>
+						<form th:action="@{/support}" method="POST">
+							<div class="form-group">
+								<label class="form-label">Nombre:</label>
+								<input class="form-control"  type="text" th:value="${user.name}" name="name">
+							</div>
+							<div class="form-group">
+								<label class="form-label">Apellido:</label>
+								<input class="form-control" type="text" th:value="${user.lastName}" name="lastName">
+							</div>
+							<div class="form-group">
+								<label class="form-label">Email:</label>
+								<input class="form-control" type="email" name="email" th:value="${user.email}">
+							</div>
+							<div class="form-group">
+								<label class="form-label">Mensaje:</label>
+								<textarea class="form-control" name="message"></textarea>
+							</div>
+							<div class="form-group text-center pt-2">
+								<button class="btn btn-primary" type="submit">Enviar</button>
+							</div>
+							
+						</form>
+						<input hidden id="supportActive" th:value="${supportActive}">
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer th:replace="front/fragments/footer :: footer"></footer>
+
+<script>
+	function typeOfHome(){
+		misMateriasButton = document.getElementById("pills-home-tab");
+		perfilButton = document.getElementById("pills-profile-tab");
+		contactoButton = document.getElementById("pills-contact-tab");
+		
+		misMateriasContent = document.getElementById("pills-home");
+		perfilContent = document.getElementById("pills-profile");
+		contactoContent = document.getElementById("pills-contact");
+		
+		typeHome = document.getElementById("typeHome").value;
+		
+		switch(typeHome){
+			case "editProfile":
+				perfilButton.classList.add("active");
+				misMateriasButton.classList.remove("active");
+				
+				perfilContent.classList.add("active", "show");
+				misMateriasContent.classList.remove("active", "show");
+				break;
+			case "contact":
+				contactoButton.classList.add("active");
+				misMateriasButton.classList.remove("active");
+				
+				contactoContent.classList.add("active", "show");
+				misMateriasContent.classList.remove("active", "show");
+				break;
+		}
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="front/fragments/header :: home"></header>
+	<div class="row contenedor">
+
+		<div class=" col-md-2 bg-light">
+			<ul class="nav flex-column">
+				<li class="nav-item m-1"><a
+					class="nav-link btn btn-secondary" aria-current="page"
+					th:href="@{/admin/panelAdministrativo}"><i class="fas fa-user-tie"></i> Profesor</a></li>
+				<li class="nav-item m-1"><a class="nav-link btn btn-primary"
+					th:href="@{/student/list}"><i class="fas fa-user-graduate"></i> Alumno</a></li>
+				<li class="nav-item m-1"><a class="nav-link btn btn-secondary"
+					th:href="@{/subject/list}"><i class="fas fa-book"></i> Materias</a></li>
+				<li class="nav-item m-1"><a class="nav-link btn btn-secondary"
+					th:href="@{/schedule/list}" ><i class="fas fa-clock"></i> Horarios</a></li>
+			</ul>
+		</div>
+
+		<div class="col-md-9">
+		<div class="alert alert-warning mt-2" role="alert" th:if="${#lists.isEmpty(students)}">
+  			<p class="text-center">No hay ningun alumno aún</p>
+		</div>
+			<table class="table" th:if="${not #lists.isEmpty(students) }">
+				<thead>
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Apellido</th>
+						<th scope="col">DNI</th>
+						<th scope="col">Activo</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="student : ${students}">
+						<td th:text="${student.name}"></td>
+						<td th:text="${student.lastName}"></td>
+						<td th:text="${student.dni}"></td>
+						<td>
+							<span th:if="${student.active == true}">Si</span>
+ 							<span th:if="${student.active == false}">No</span>
+ 						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="row pt-5 pb-4">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}"><a class="page-link" th:href="@{|/student/list?page=${prev}}">Anterior</a></li>
+					    <li class="page-item" th:classappend="${current == page} ? 'active' : ''" th:each="page : ${pages}"><a class="page-link" th:href="@{|/student/list?page=${page}}" th:text="${page}"></a></li>
+					    <li class="page-item" th:classappend="${current >= last} ? 'disabled' : ''"><a class="page-link" th:href="@{|/student/list?page=${next}}">Siguiente</a></li>
+					  </ul>
+					</nav>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="front/fragments/footer :: footer"></footer>
+</body>
+</html>

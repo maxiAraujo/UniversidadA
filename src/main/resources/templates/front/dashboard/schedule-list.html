@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="front/fragments/header :: home"></header>
+	<div class="row contenedor">
+
+		<div class=" col-md-2 bg-light">
+			<ul class="nav flex-column">
+				<li class="nav-item m-1"><a
+					class="nav-link btn btn-secondary" aria-current="page"
+					th:href="@{/admin/panelAdministrativo}"><i class="fas fa-user-tie"></i> Profesor</a></li>
+				<li class="nav-item m-1"><a class="nav-link btn btn-secondary"
+					th:href="@{/student/list}"><i class="fas fa-user-graduate"></i> Alumno</a></li>
+				<li class="nav-item m-1"><a class="nav-link btn btn-secondary"
+					th:href="@{/subject/list}"><i class="fas fa-book"></i> Materias</a></li>
+				<li class="nav-item m-1"><a class="nav-link btn btn-primary"
+					th:href="@{/schedule/list}" ><i class="fas fa-clock"></i> Horarios</a></li>
+			</ul>
+		</div>
+
+		<div class="col-md-9">
+		<a class="btn btn-success mt-2" th:href="@{/schedule/form/}">Nuevo Horario</a>
+		<div class="alert alert-warning mt-2" role="alert" th:if="${#lists.isEmpty(schedules)}">
+  			<p class="text-center">No hay ningun horario aún</p>
+		</div>
+			<table class="table pb-5" th:if="${not #lists.isEmpty(schedules) }">
+				<thead>
+					<tr>
+						<th scope="col">Día</th>
+						<th scope="col">Turno</th>
+						<th scope="col">Editar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="schedule : ${schedules}">
+						<td scope="row" th:text="${schedule.day}"></td>
+						<td th:text="${schedule.turn}"></td>
+						<td><a th:href="@{/schedule/form/{id} (id = ${schedule.id})}" class="">Editar</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="row pt-5 pb-4">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item" th:classappend="${prev == 0 ? 'disabled' : ''}"><a class="page-link" th:href="@{|/schedule/list?page=${prev}}">Anterior</a></li>
+					    <li class="page-item" th:classappend="${current == page} ? 'active' : ''" th:each="page : ${pages}"><a class="page-link" th:href="@{|/schedule/list?page=${page}}" th:text="${page}"></a></li>
+					    <li class="page-item" th:classappend="${current >= last} ? 'disabled' : ''"><a class="page-link" th:href="@{|/schedule/list?page=${next}}">Siguiente</a></li>
+					  </ul>
+					</nav>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+				
+		</div>
+	</div>
+	<footer th:replace="front/fragments/footer :: footer"></footer>
+</body>
+</html>

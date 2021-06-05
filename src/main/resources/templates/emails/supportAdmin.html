@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<meta http-equiv="U-UX-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Universidad Alkemy</title>
+</head>
+<body>
+	<h3>Un usuario ha enviado un mensaje</h3>
+	<p>Datos: <br>
+		Nombre: <span th:text="${name}"></span><br>
+		Apellido: <span th:text="${lastName}"></span><br>
+		Email: <span th:text="${userEmail}"></span><br>
+		Mensaje: <br>
+		<b><i>&#8220;<span th:text="${text}"></span>&#8221;</i></b>
+	</p>
+	<p>Equipo de Universidad Alkemy</p>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="front/fragments/header :: home"></header>
+	<main class="mb-2">
+		<div class="container">
+			<div class="row justify-content-center mt-5 mb-5 ">
+				<div class="col-md-7 bg-white rounded shadow">
+					<h1 class="display-4">Crea o edita un nuevo Horario</h1>
+					<hr class="bg-info">
+					<div class="alert alert-danger" th:if="${error} != null"
+						role="alert">
+						<span th:text="${error}"></span>
+					</div>
+					<form th:action="@{/schedule/form-success}" th:object="${schedule}"
+						method="POST">
+
+						<div class="row form-group mb-4">
+							<label for="apellido" class="col-form-label col-md-4">Día:</label>
+							<div class="col-md-8">
+								<select name="day" class="form-control">
+									<option disabled>Seleccione un día</option>
+									<option th:each="day : ${day}" th:value="${day}"
+										th:text="${day} ">
+								</select>
+							</div>
+						</div>
+						<div class="row form-group mb-4">
+							<label for="apellido" class="col-form-label col-md-4">Horario:</label>
+							<div class="col-md-8">
+								<select name="turn" class="form-control">
+									<option disabled>Seleccione un Horario</option>
+									<option th:each="turn : ${turn}" th:value="${turn}"
+										th:text="${turn} ">
+								</select>
+							</div>
+						</div>
+
+						<!-- 					<div class="row form-group mb-4"> -->
+						<!-- 						<label for="rol" class="col-form-label col-md-4">Tipo Usuario</label> -->
+						<!-- 						<div class="col-md-8"> -->
+						<!-- 							<select name="rol" id="" class="form-control"> -->
+						<!-- 								<option value="" disabled selected="selected">Seleccione un tipo Usuario</option> -->
+						<!-- 								<option >Administrador</option> -->
+						<!-- 								<option >Alumno</option> -->
+						<!-- 							</select> -->
+						<!-- 						</div> -->
+						<!-- 					</div> -->
+						<div class="row justify-content-center">
+							<div class="col-md-2">
+								<button type="submit" class="btn btn-info mb-4">Enviar</button>
+
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+
+		</div>
+	</main>
+
+	<footer th:replace="front/fragments/footer :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:replace="front/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="front/fragments/header :: home"></header>
+	<main class="mb-2">
+	<div class="container">
+		<div class="row justify-content-center mt-5 mb-5 ">
+			<div class="col-md-7 bg-white rounded shadow">
+				<h1 class="display-4">Ingresa la Asignatura</h1>
+				<hr class="bg-info">
+				<div class="alert alert-danger" th:if="${error} != null" role="alert">
+  					<span  th:text="${error}"></span>
+				</div>
+				<form th:action="@{/subject/form-success}" th:object="${subject}" method="POST">
+					<div class="row form-group mb-4">
+						<label for="dni" class="col-form-label col-md-4">Nombre:</label>
+						<div class="col-md-8">
+							<input type="text" name="name" th:value="${subject.name}" id="name" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group mb-4">
+						<label for="nombre" class="col-form-label col-md-4">Máximo Alumnos:</label>
+						<div class="col-md-8">
+							<input type="number" name="maximumNumberOfStudents" th:value="${subject.maximumNumberOfStudents}" id="maximumNumberOfStudents" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group mb-4">
+						<label for="profesor" class="col-form-label col-md-4">Profesor:</label>
+						<div class="col-md-8">
+							<select name="teacherModel" class="form-control" th:field="*{idTeacher}">
+								<option th:each="teacher : ${teachers}" th:field="*{idTeacher}" th:value="${teacher.dni}" th:text="${teacher.name} + ' ' + ${teacher.lastName}">
+							</select>
+						</div>
+					</div>
+					<div class="row form-group mb-4">
+						<label for="apellido" class="col-form-label col-md-4">Día:</label>
+						<div class="col-md-8">
+							<select name="day" class="form-control" id="daysOfWeek">
+								<option disabled>Seleccione un día de la semana</option>
+								<option th:each="day : ${day}" th:text="${day}" th:value="${day}">
+							</select>
+						</div>
+					</div>
+					<div class="row form-group mb-4">
+						<label for="apellido" class="col-form-label col-md-4">Turno:</label>
+						<div class="col-md-8">
+							<select name="turn" id="turns" class="form-control">
+								<option disabled>Seleccione un turno</option>
+							</select>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-info mb-4">Enviar</button>					
+						
+						</div>
+					</div>
+					<input hidden name="typeregister" th:value="${typeregister}">
+					<input type="hidden" th:field="*{id}" name="id" th:value="${subject.id}">
+				</form>
+			</div>
+			
+		</div>
+		
+	</div>
+    </main>
+
+    <footer th:replace="front/fragments/footer :: footer"></footer>
+    <script type="text/javascript">
+    	
+    </script>
+    
+    <!-- Trae la lista de dias y turnos disponibles -->
+    <script>
+    	$(document).ready(function () {
+    		console.log("entra a la funcion");
+    		$('#daysOfWeek').on('change', function () {
+    		var nameDay = $(this).val();
+    		$.ajax({
+				type: 'GET',
+				url: '/pull-turn/' + nameDay,
+				success: function (resultado) {
+					console.log(resultado)
+					var s = '';
+					for (var i = 0; i < resultado.length; i++) {
+								s += '<option th:value="${' + resultado[i] + '}">' + resultado[i] + '</option>';
+							}
+							$('#turns').html(s);
+						}
+					});
+				});
+			});
+    </script>
+</body>
+</html>

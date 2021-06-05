@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="front/fragments/header :: index"></header>
+	<div class="container w-75 bg-info mt-5 mb-5 rounded shadow">
+		<div class="row align-items-stretch">
+			<div class="col bg d-none d-lg-block col-md-5 col-lg-5 col-xl-6">
+				<h2 class="display-4 text-center mt-5 pt-5">Bienvenido</h2>
+				<br>
+				<h4 class="fw text-center" id="text">Inicia sesión para inscribirte a las materias.
+				 Si no tienes una cuenta registrate. Recuerda que no puedes inscribirte a dos o varias materias
+				 en el mismo horario.</h4>
+			</div>
+			<div class="col bg-white p-5 rounded-end">
+				
+
+				<!--LOGIN-->
+				<div class="alert alert-danger" th:if="${error} != null" role="alert">
+  					<span id="error" th:text="${error}"></span>
+				</div>
+				<div class="alert alert-danger" id="divError" hidden role="alert">
+  					<span id="error"></span>
+				</div>
+				<div class="alert alert-success" th:if="${success} != null" role="alert">
+  					<span  th:text="${success}"></span>
+				</div>
+				
+				<form th:action="@{/logincheck}" method="POST">
+					<div class="mb-4">
+						<label for="dni" class="form-label">Documento:</label>
+						<input type="text" id="dni" class="form-control" name="dni">
+					</div>
+					<div class="mb-4">
+						<label for="legajo" id="file" class="form-label">Legajo:</label>
+						<input type="number" class="form-control" name="file">
+					</div>
+					
+					<input hidden id="typeuser" name="typeUser" value="user"> 
+					
+					<div class="d-grid">
+						<button type="submit" class="btn btn-primary">Iniciar sesión</button>
+					</div>
+					<div class="my-3">
+						<span>¿No tienes Cuenta? <a th:href="@{/register}">Registrate</a></span><br>
+						<span><a th:href="@{/forgotpassword}">Olvidé mi legajo</a></span><br>
+						<span><a href="#" onclick="changeLabel()" id="admin">Soy Administrador</a></span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="front/fragments/footer :: footer"></footer>
+	<script>
+		function changeLabel(){
+			if(document.querySelector('#admin').innerText == 'Soy Administrador'){
+				document.querySelector('#file').innerText = 'Clave única del administrador:';
+				document.querySelector('#admin').innerText = 'Soy Alumno';
+				document.querySelector('#text').innerText = `Inicia sesión para administrar las materias y profesores. 
+				Si no tienes una cuenta registrate.`				
+			}else{
+				document.querySelector('#file').innerText = 'Legajo:';
+				document.querySelector('#admin').innerText = 'Soy Administrador';
+				document.querySelector('#text').innerText = `Inicia sesión para inscribirte a las materias.
+				 Si no tienes una cuenta registrate. Recuerda que no puedes inscribirte a dos o varias materias
+				 en el mismo horario.`
+			}
+		}
+	</script>
+</body>
+</html>

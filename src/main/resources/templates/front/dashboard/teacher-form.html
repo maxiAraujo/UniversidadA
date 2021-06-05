@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:replace="front/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="front/fragments/header :: home"></header>
+	<main class="mb-2">
+	<div class="container">
+		<div class="row justify-content-center mt-5 mb-5 ">
+			<div class="col-md-7 bg-white rounded shadow">
+				<h1 class="display-4">Agregar Profesor</h1>
+				<hr class="bg-info">
+				<div class="alert alert-danger" th:if="${error} != null" role="alert">
+  					<span  th:text="${error}"></span>
+				</div>
+				<form th:action="@{/teacher/form-success}" th:object="${teacher}" method="POST">
+					<div class="row form-group mb-4">
+						<label for="dni" class="col-form-label col-md-4">Documento:</label>
+						<div class="col-md-8">
+							<input type="text" name="dni" th:value="${teacher.dni}" id="dni" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group mb-4">
+						<label for="nombre" class="col-form-label col-md-4">Nombre:</label>
+						<div class="col-md-8">
+							<input type="text" name="name" th:value="${teacher.name}" id="name" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group mb-4">
+						<label for="apellido" class="col-form-label col-md-4">Apellido:</label>
+						<div class="col-md-8">
+							<input type="text" name="lastName" th:value="${teacher.lastName}" id="lastname" class="form-control">
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-info mb-4">Enviar</button>					
+						
+						</div>
+					</div>
+						<input hidden name="typeregister" th:value="${typeregister}">
+				</form>
+			</div>
+			
+		</div>
+		
+	</div>
+    </main>
+
+    <footer th:replace="front/fragments/footer :: footer"></footer>
+    
+   	<script>
+   	console.log("entra");
+    	let dni = document.getElementById("dni");
+    	console.log("dni " + dni.value);
+    	console.log("dni " + dni.value.lenght);
+    	if(dni.value != ""){
+    		dni.setAttribute("readonly", true);
+    	}
+    </script>
+</body>
+</html>

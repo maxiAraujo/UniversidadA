@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="front/fragments/header :: head">
+</head>
+
+<body>
+	<header th:replace="front/fragments/header :: index"></header>
+	<div class="m-0 vh-100 row justify-content-center align-items-center">
+		<div class="col-auto bg-success p-5 text-center">
+			<h1>Bienvenido, <span th:text="${user.name}"></span></h1>
+			
+			<p>Ya puedes iniciar sesión e inscribirte a las materias que quieras. Solo recuerda
+			que no puedes inscribirte materias que tengan el mismo horario.</p>
+			<a href="/">Inicio</a>
+		</div>
+	</div>
+
+	<footer th:replace="front/fragments/footer :: footer"></footer>
+</body>
+</html>
